@@ -65,6 +65,17 @@ function _amber_get_view_link($row) {
 }
 
 /**
+ * Return the value for status column based on status and last checked
+ */
+function _amber_status_column_value($status, $last_checked = "2 ") {
+  $value = $status ? 'Up' : 'Down';
+  if($last_checked != null && empty($last_checked)) {
+    $value = "";
+  }
+  return $value;
+}
+
+/**
  * Get the size of the capture
  */
 function _amber_get_size_column($row) {
@@ -142,7 +153,7 @@ function amber_dashboard_detail_form() {
       'data' => array(
         'site' => "$host (" . l(t('Blacklist'), 'admin/reports/amber/blacklist/' . $host, array('query' => array('destination' => current_path()))) . ")",
         'url' => l($r['url'], $r['url']),
-        'status' => $r['status'] ? t('Up') : t('Down'),
+        'status' => _amber_status_column_value($r['status'], $r['last_checked']),
         'last_checked' => isset($r['last_checked']) ? format_date($r['last_checked']) : "",
         'date' => isset($r['date']) ? format_date($r['date']) : "",
         'size' => _amber_get_size_column($r),
@@ -278,7 +289,7 @@ function amber_dashboard_detail_form_export($form, &$form_state) {
     $rows[] = array(
       'site' => $host,
       'url' => $r['url'],
-      'status' => $r['status'] ? t('Up') : t('Down'),
+      'status' => _amber_status_column_value($r['status'], $r['last_checked']),
       'last_checked' => isset($r['last_checked']) ? date('c', $r['last_checked']) : "",
       'date' => isset($r['date']) ? date('c', $r['date']) : "",
       'size' => $r['size'],

@@ -269,6 +269,7 @@ function _amber_fetch_item($item, $fetcher, $status) {
   } catch (RuntimeException $re) {
     watchdog('amber', "Did not cache: @url: @message", array('@url' => $item, '@message' => $re->getMessage()), WATCHDOG_NOTICE);
     $update['message'] = $re->getMessage();
+    $update['url'] = $item;
     $status->save_check($update);
     return FALSE;
   }
