@@ -22,7 +22,6 @@ class AmberFetcher implements iAmberFetcher {
    * @return 
    */
   public function fetch($url) {
-
     if (!$url) {
       throw new RuntimeException("Empty URL");
     }
@@ -44,6 +43,7 @@ class AmberFetcher implements iAmberFetcher {
     if ($size == 0) {
       throw new RuntimeException("Empty document"); 
     }
+
     // Get other assets
     if (isset($root_item['headers']['Content-Type']) &&
         ($content_type = $root_item['headers']['Content-Type']) &&
@@ -496,4 +496,4 @@ class AmberRobots {
   }
 
 }
-
+?>
